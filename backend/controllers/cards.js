@@ -1,47 +1,46 @@
 const Card = require('../models/card');
-const handleError = require('../handleError');
+const NotFoundError = require('../errors/not-found-error');
+const ValidationError = require('../errors/validation-error');
+const ForbiddenError = require('../errors/forbidden-error');
 
-const getCards = (req, res) => {
+const getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => res.send(cards))
-    .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
+    .catch((err) => next(err));
 };
 
-const createCard = (req, res) => {
+const createCard = (req, res, next) => {
   const { name, link } = req.body;
   const { _id } = req.user;
   Card.create({ name, link, owner: _id })
-  //Card.create({ name, link, owner: { _id: req.user._id } })
     .then((card) => res.send(card))
     .catch((err) => {
       if (err._message === 'card validation failed') {
-        res.status(400).send({ message: 'Введены неверные данные' });
-      } else {
-        res.status(500).send({ message: 'Произошла ошибка' });
+        next(new ValidationError('Введены некорректные данные'));
       }
+      next(err);
     });
 };
 
-const deleteCard = (req, res) => {
+const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
 
   Card.findById(cardId)
-    .orFail(() => new Error('Not found'))
+    .orFail(() => new NotFoundError('Запрашиваемый ресурс не найден'))
     .then((card) => {
       if (card.owner.toString() === req.user._id) {
         Card.findByIdAndRemove(cardId)
-          .orFail(() => new Error('Not found'))
+          .orFail(() => new NotFoundError('Запрашиваемый ресурс не найден'))
           .then((data) => res.send(data))
-          .catch((err) => handleError(err, res));
+          .catch((err) => next(err));
       } else {
-        res.status(403).send({ message: 'Можно удалять только свои карточки' });
+        throw new ForbiddenError('Можно удалять только свои карточки');
       }
     })
-    .catch((err) => handleError(err, res));
+    .catch((err) => next(err));
 };
 
-const likeCard = (req, res) => {
-  console.log(req)
+const likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(req.params.cardId, {
     $addToSet: {
       likes: req.user._id,
@@ -50,12 +49,12 @@ const likeCard = (req, res) => {
     runValidators: true,
     new: true,
   })
-    .orFail(() => new Error('Not found'))
+    .orFail(() => new NotFoundError('Запрашиваемый ресурс не найден'))
     .then((card) => res.send(card))
-    .catch((err) => handleError(err, res));
+    .catch((err) => next(err));
 };
 
-const deleteLike = (req, res) => {
+const deleteLike = (req, res, next) => {
   Card.findByIdAndUpdate(req.params.cardId, {
     $pull: {
       likes: req.user._id,
@@ -64,9 +63,9 @@ const deleteLike = (req, res) => {
     runValidators: true,
     new: true,
   })
-    .orFail(() => new Error('Not found'))
+    .orFail(() => new NotFoundError('Запрашиваемый ресурс не найден'))
     .then((card) => res.send(card))
-    .catch((err) => handleError(err, res));
+    .catch((err) => next(err));
 };
 
 module.exports = {

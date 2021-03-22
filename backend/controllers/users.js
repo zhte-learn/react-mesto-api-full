@@ -1,26 +1,27 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const handleError = require('../handleError');
-const NotFoundError = require('../errors.js/not-found-error');
+const NotFoundError = require('../errors/not-found-error');
+const ValidationError = require('../errors/validation-error');
+const ConflictError = require('../errors/conflict-error');
 
 const SALT_ROUNDS = 10;
 const MONGO_DUPLICATE_ERROR_CODE = 11000;
 const JWT_SECRET_KEY = 'ffc2f4e0dd81be0874443aa99c4aab0041d6fe55d09a6d5777e459ea8f7445d6';
 
-const getUsers = (req, res) => {
+const getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.send(users))
-    .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
+    .catch((err) => next(err));
 };
 
-const addUser = (req, res) => {
+const addUser = (req, res, next) => {
   const {
     name, about, avatar, email, password,
   } = req.body;
 
   if (!email || !password) {
-    return res.status(400).send({ message: 'Не передан email или пароль' });
+    throw new ValidationError('Не передан email или пароль');
   }
 
   bcrypt.hash(password, SALT_ROUNDS)
@@ -39,29 +40,29 @@ const addUser = (req, res) => {
     }))
     .catch((err) => {
       if (err._message === 'user validation failed') {
-        res.status(400).send({ message: 'Введены некорректные данные' });
+        next(new ValidationError('Введены некорректные данные'));
       } else if (err.code === MONGO_DUPLICATE_ERROR_CODE) {
-        res.status(409).send({ message: 'Пользователь с таким email уже существует' });
+        next(new ConflictError('Пользователь с таким email уже существует'));
       }
-      res.status(500).send({ message: 'Произошла ошибка, не удалось зарегистрировать пользователя' });
+      next(err);
     });
 };
 
-const getUserById = (req, res) => {
+const getUserById = (req, res, next) => {
   User.findById(req.params.userId)
-    .orFail(() => new Error('Not found'))
+    .orFail(() => new NotFoundError('Пользователь не найден'))
     .then((user) => res.send(user))
-    .catch((err) => handleError(err, res));
+    .catch((err) => next(err));
 };
 
-const getUserMe = (req, res) => {
+const getUserMe = (req, res, next) => {
   User.findById(req.user._id)
-    .orFail(() => new Error('Not found'))
+    .orFail(() => new NotFoundError('Пользователь не найден'))
     .then((user) => res.send(user))
-    .catch((err) => handleError(err, res));
+    .catch((err) => next(err));
 };
 
-const updateUserInfo = (req, res) => {
+const updateUserInfo = (req, res, next) => {
   console.log(req.user);
   User.findByIdAndUpdate(
     req.user._id,
@@ -72,13 +73,12 @@ const updateUserInfo = (req, res) => {
       upsert: false,
     },
   )
-    //.orFail(() => new Error('Not found'))
-    .orFail(() => throw new NotFoundError('Not found'))
+    .orFail(() => new NotFoundError('Пользователь не найден'))
     .then((user) => res.send(user))
-    .catch((err) => handleError(err, res));
+    .catch((err) => next(err));
 };
 
-const updateUserAvatar = (req, res) => {
+const updateUserAvatar = (req, res, next) => {
   User.findByIdAndUpdate(
     req.user._id,
     { avatar: req.body.avatar },
@@ -88,22 +88,22 @@ const updateUserAvatar = (req, res) => {
       upsert: false,
     },
   )
-    .orFail(() => new Error('Not found'))
+    .orFail(() => new NotFoundError('Пользователь не найден'))
     .then((user) => res.send(user))
-    .catch((err) => handleError(err, res));
+    .catch((err) => next(err));
 };
 
-const login = (req, res) => {
+const login = (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).send({ message: 'Не передан email или пароль' });
+    throw new ValidationError('Не передан email или пароль');
   }
 
   User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        return res.status(401).send({ message: 'Неправильные почта или пароль' });
+        throw new ValidationError('Неправильные почта или пароль');
       }
       return {
         user,
@@ -113,16 +113,14 @@ const login = (req, res) => {
     .then(({ user, matched }) => {
       console.log(user);
       if (!matched) {
-        return res.status(401).send({ message: 'Неправильные почта или пароль' });
+        throw new ValidationError('Неправильные почта или пароль');
       }
 
       const token = jwt.sign({ _id: user._id }, JWT_SECRET_KEY, { expiresIn: '7d' });
 
       return res.status(200).send({ token: token });
     })
-    .catch(() => {
-      res.status(500).send({ message: 'Произошла ошибка, не удалось авторизовать пользователя' });
-    });
+    .catch((err) => next(err));
 };
 
 module.exports = {

@@ -6,6 +6,7 @@ const cardsRouter = require('./routes/cards.js');
 const usersRouter = require('./routes/users.js');
 const { addUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
+const NotFoundError = require('./errors/not-found-error');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -32,14 +33,15 @@ app.use(auth);
 app.use('/', usersRouter);
 app.use('/', cardsRouter);
 
-app.use((err, req, res, next) => {
-  res.status(500).send({ message: 'На сервере произошла ошибка' });
+app.use((req, res, next) => {
+  next(new NotFoundError('Запрашиваемый ресурс не найден'));
 });
 
-/* app.use((req, res) => {
-  res.status(404);
-  res.send({ message: 'Запрашиваемый ресурс не найден' });
-}); */
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message } = err;
+
+  res.status(statusCode).send({ message: statusCode === 500 ? 'На сервере произошла ошибка' : message });
+});
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
