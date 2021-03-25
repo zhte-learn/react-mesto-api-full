@@ -63,7 +63,6 @@ const getUserMe = (req, res, next) => {
 };
 
 const updateUserInfo = (req, res, next) => {
-  console.log(req.user);
   User.findByIdAndUpdate(
     req.user._id,
     { name: req.body.name, about: req.body.about },
@@ -111,7 +110,6 @@ const login = (req, res, next) => {
       };
     })
     .then(({ user, matched }) => {
-      console.log(user);
       if (!matched) {
         throw new ValidationError('Неправильные почта или пароль');
       }

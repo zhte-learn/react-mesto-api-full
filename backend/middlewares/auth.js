@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const AuthError = require('../errors/auth-error');
 const ValidationError = require('../errors/validation-error');
 
-const JWT_SECRET_KEY = 'very_secret_key';
+const JWT_SECRET_KEY = 'ffc2f4e0dd81be0874443aa99c4aab0041d6fe55d09a6d5777e459ea8f7445d6';
 
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
@@ -16,8 +16,6 @@ module.exports = (req, res, next) => {
   try {
     payload = jwt.verify(token, JWT_SECRET_KEY);
   } catch (err) {
-    console.log(err);
-    console.log(token);
     next(new AuthError('Необходима авторизация'));
   }
 
