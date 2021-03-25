@@ -56,7 +56,7 @@ class Auth {
 }
 
 const auth = new Auth({
-  url: 'http://localhost:3000',
+  url: 'http://api.zhte-f.nomoredomains.icu',
   headers: {
     'content-type': 'application/json'
   }

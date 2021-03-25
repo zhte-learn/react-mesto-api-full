@@ -149,7 +149,7 @@ class Api {
 }
 
 const api = new Api({
-  url: 'http://localhost:3000',
+  url: 'http://api.zhte-f.nomoredomains.icu',
 });
 
 export default api;
