@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const AuthError = require('../errors/auth-error');
 
 const JWT_SECRET_KEY = 'very_secret_key';
 
@@ -6,7 +7,7 @@ module.exports = (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    return res.status(401).send({ message: 'Необходима авторизация' });
+    throw new ValidationError('Не передан email или пароль');
   }
   const token = authorization.replace('Bearer ', '');
   let payload;
@@ -14,7 +15,7 @@ module.exports = (req, res, next) => {
   try {
     payload = jwt.verify(token, JWT_SECRET_KEY);
   } catch (err) {
-    return res.status(401).send({ message: 'Необходима авторизация' });
+    next(new AuthError('Необходима авторизация'));
   }
 
   req.user = payload;
