@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const AuthError = require('../errors/auth-error');
+const ValidationError = require('../errors/validation-error');
 
 const JWT_SECRET_KEY = 'very_secret_key';
 
