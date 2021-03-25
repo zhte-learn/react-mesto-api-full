@@ -1,0 +1,9 @@
+.sign__link {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 7px;
+}
+
+.sign__link:hover {
+  opacity: 0.6;
+}

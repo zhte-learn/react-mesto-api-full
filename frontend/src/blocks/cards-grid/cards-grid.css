@@ -1,0 +1,9 @@
+.cards-grid {
+  padding-top: 50px;
+}
+
+@media screen and (max-width: 515px) {
+  .cards-grid {
+    padding-top: 36px;
+  }
+}

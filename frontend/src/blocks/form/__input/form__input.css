@@ -1,0 +1,32 @@
+.form__input {
+  /*position: relative;*/
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgb(0, 0, 0, .2);
+  padding: 0;
+  padding-bottom: 13px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: #000; 
+}
+
+.form__input:hover {
+  background-color: rgb(225,225,225,.4);
+}
+
+.form__input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, .2);
+  border-radius: 2px;
+}
+
+.form__input::placeholder {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: #C4C4C4;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}

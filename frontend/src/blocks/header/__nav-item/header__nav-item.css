@@ -1,0 +1,10 @@
+.header__nav-item {
+  margin: 0;
+  margin-left: 24px;
+  color: #fff;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 22px;
+  text-decoration: none;
+}

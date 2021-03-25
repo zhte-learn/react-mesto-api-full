@@ -1,0 +1,20 @@
+.button_action_edit {
+  width: 24px;
+  height: 24px;
+  margin: 19px 0 0 25px;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  background-image: url(../../../images/icon-edit.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 760px) {
+  .button_action_edit {
+    width: 18px;
+    height: 18px;
+    margin: 6px 0 0 14px;
+  }
+}

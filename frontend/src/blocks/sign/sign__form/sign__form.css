@@ -1,0 +1,27 @@
+.sign__form {
+  margin-top: 20px;
+}
+
+.sign__form input {
+  color: #fff;
+  margin-top: 30px;
+  line-height: 27px;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid#CCCCCC;
+  padding: 0;
+  background-color: #000;
+}
+
+.sign__form input::placeholder {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  color: #CCCCCC;
+}
+
+.sign__form input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, .2);
+  border-radius: 2px;
+}

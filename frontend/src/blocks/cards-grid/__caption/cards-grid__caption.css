@@ -1,0 +1,8 @@
+.cards-grid__caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 26px 15px 24px 21px;
+  border-radius: 0 0 10px 10px;
+  background: #fff;
+}

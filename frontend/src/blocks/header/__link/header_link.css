@@ -1,0 +1,18 @@
+.header__link {
+  display: inline-block;
+  width: 142px;
+  height: 33px;
+  transition: all 0.3s ease-in-out;
+}
+
+.header__link:hover {
+  opacity: 0;
+}
+
+@media screen and (max-width: 760px) {
+  .header__link {
+    width: 103px;
+    height: 24px;
+    margin-left: 9px;
+  }   
+}

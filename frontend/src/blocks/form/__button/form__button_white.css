@@ -1,0 +1,11 @@
+.form__button_white {
+  margin-top: 216px;
+  background-color: #fff;
+  color: #000;
+}
+
+.form__button_white:hover,
+.form__button_white:focus {
+  background: rgba(255, 255, 255, .8);
+  color: #000;
+}

@@ -1,0 +1,37 @@
+.form__button {
+  width: 100%;
+  min-height: 50px;
+  padding: 0;
+  margin-top: 42px;
+  background-color: #000;
+  border-radius: 2px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #fff;
+  border: none;
+  cursor: pointer; 
+  transition: all 0.3s ease-in-out; 
+}
+
+.form__button:hover,
+.form__button:focus {
+  background: rgba(0, 0, 0, .8);
+  color: #fff;
+  border: none;
+  opacity: 1;
+}
+
+.form__button:active {
+  transform: translateY(1px);
+  filter: saturate(150%);
+  outline: none;
+}
+
+@media screen and (max-width: 450px) {
+  .form__button {
+    margin-top: 38px;
+  }   
+}
