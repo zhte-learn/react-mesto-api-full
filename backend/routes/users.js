@@ -19,8 +19,17 @@ usersRouter.get('/users/:userId', celebrate({
   }).unknown(true),
 }), getUserById);
 
-usersRouter.put('/users/me', updateUserInfo);
+usersRouter.put('/users/me', celebrate({
+  body: Joi.object().keys({
+    name: Joi.string().min(2).max(30),
+    about: Joi.string().min(2).max(30),
+  }),
+}), updateUserInfo);
 
-usersRouter.put('/users/me/avatar', updateUserAvatar);
+usersRouter.put('/users/me/avatar', celebrate({
+  body: Joi.object().keys({
+    avatar: Joi.string().pattern(/^(https?:\/\/)([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?#?$/),
+  }),
+}), updateUserAvatar);
 
 module.exports = usersRouter;

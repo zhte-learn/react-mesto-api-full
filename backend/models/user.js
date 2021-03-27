@@ -30,7 +30,6 @@ const userSchema = new mongoose.Schema({
     unique: true,
     validate: {
       validator(v) {
-        //return /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/.test(v);
         return validator.isEmail(v);
       },
       message: 'Email указан неверно!',

@@ -8,7 +8,6 @@ const ConflictError = require('../errors/conflict-error');
 
 const SALT_ROUNDS = 10;
 const MONGO_DUPLICATE_ERROR_CODE = 11000;
-//const JWT_SECRET_KEY = 'ffc2f4e0dd81be0874443aa99c4aab0041d6fe55d09a6d5777e459ea8f7445d6';
 
 const getUsers = (req, res, next) => {
   User.find({})
@@ -117,12 +116,11 @@ const login = (req, res, next) => {
 
       const token = jwt.sign(
         { _id: user._id },
-        //JWT_SECRET_KEY,
         NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
         { expiresIn: '7d' },
       );
 
-      return res.status(200).send({ token: token });
+      return res.status(200).send({ token });
     })
     .catch((err) => next(err));
 };
