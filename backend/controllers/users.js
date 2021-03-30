@@ -5,6 +5,7 @@ const User = require('../models/user');
 const NotFoundError = require('../errors/not-found-error');
 const ValidationError = require('../errors/validation-error');
 const ConflictError = require('../errors/conflict-error');
+const AuthError = require('../errors/auth-error');
 
 const SALT_ROUNDS = 10;
 const MONGO_DUPLICATE_ERROR_CODE = 11000;
@@ -111,7 +112,7 @@ const login = (req, res, next) => {
     })
     .then(({ user, matched }) => {
       if (!matched) {
-        throw new ValidationError('Неправильные почта или пароль');
+        throw new AuthError('Неправильные почта или пароль');
       }
 
       const token = jwt.sign(

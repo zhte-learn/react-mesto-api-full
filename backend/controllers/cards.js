@@ -30,7 +30,7 @@ const deleteCard = (req, res, next) => {
     .then((card) => {
       if (card.owner.toString() === req.user._id) {
         Card.findByIdAndRemove(cardId)
-          .orFail(() => new NotFoundError('Запрашиваемый ресурс не найден'))
+          .orFail(() => new NotFoundError('Запрашиваемая карточка не найдена'))
           .then((data) => res.send(data))
           .catch((err) => next(err));
       } else {
@@ -49,7 +49,7 @@ const likeCard = (req, res, next) => {
     runValidators: true,
     new: true,
   })
-    .orFail(() => new NotFoundError('Запрашиваемый ресурс не найден'))
+    .orFail(() => new NotFoundError('Запрашиваемая карточка не найдена'))
     .then((card) => res.send(card))
     .catch((err) => next(err));
 };
@@ -63,7 +63,7 @@ const deleteLike = (req, res, next) => {
     runValidators: true,
     new: true,
   })
-    .orFail(() => new NotFoundError('Запрашиваемый ресурс не найден'))
+    .orFail(() => new NotFoundError('Запрашиваемая карточка не найдена'))
     .then((card) => res.send(card))
     .catch((err) => next(err));
 };
