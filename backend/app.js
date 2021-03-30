@@ -15,17 +15,17 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 const corsOptions = {
-  //origin: '*',
-  origin: [
+  origin: '*',
+  /* origin: [
     'https://zhte-f.nomoredomains.icu',
     'https://zhte-f.nomoredomains.icu',
-  ],
-  //methods: ['GET', 'PUT', 'POST', 'HEAD', 'PATCH', 'DELETE'],
+  ], */
+  methods: ['GET', 'PUT', 'POST', 'HEAD', 'PATCH', 'DELETE'],
   credentials: true,
 };
 
-//app.use(cors(corsOptions));
-app.use('*', corsOptions);
+app.use(cors(corsOptions));
+//app.use('*', corsOptions);
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
