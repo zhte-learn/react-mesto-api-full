@@ -42,7 +42,8 @@ class Api {
     return fetch(`${this._url}/cards`, {
         method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          //'Content-Type': 'application/json',
+          'Content-Type': 'image/jpeg',
           'Authorization' : `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify(data),
@@ -71,7 +72,8 @@ class Api {
     return fetch(`${this._url}/users/me/avatar`, {
       method: "PATCH",
       headers: {
-        'Content-Type': 'application/json',
+        //'Content-Type': 'application/json',
+        'Content-Type': 'image/jpeg',
         'Authorization' : `Bearer ${localStorage.getItem('token')}`,
       },
       //credentials: 'include',
