@@ -21,6 +21,7 @@ const corsOptions = {
     'http://zhte-f.nomoredomains.icu',
   ], */
   methods: ['GET', 'PUT', 'POST', 'HEAD', 'PATCH', 'DELETE'],
+  allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept',
   credentials: true,
 };
 
