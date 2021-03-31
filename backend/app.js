@@ -19,6 +19,7 @@ const corsOptions = {
   origin: [
     'https://zhte-f.nomoredomains.icu',
     'http://zhte-f.nomoredomains.icu',
+    /* 'http://localhost:3001', */
   ],
   methods: ['GET', 'PUT', 'POST', 'HEAD', 'PATCH', 'DELETE'],
   credentials: true,
