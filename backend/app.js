@@ -15,13 +15,14 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 const corsOptions = {
-  /* origin: '*', */
+/*  origin: '*', */
   origin: [
     'https://zhte-f.nomoredomains.icu',
     'http://zhte-f.nomoredomains.icu',
     /* 'http://localhost:3001', */
   ],
   methods: ['GET', 'PUT', 'POST', 'HEAD', 'PATCH', 'DELETE'],
+  /* allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept', */
   credentials: true,
 };
 

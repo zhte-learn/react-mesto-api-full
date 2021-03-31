@@ -43,6 +43,7 @@ class Api {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
+          //'Content-Type': 'image/jpeg',
           'Authorization' : `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify(data),
@@ -72,6 +73,7 @@ class Api {
       method: "PATCH",
       headers: {
         'Content-Type': 'application/json',
+        //'Content-Type': 'image/jpeg',
         'Authorization' : `Bearer ${localStorage.getItem('token')}`,
       },
       //credentials: 'include',
