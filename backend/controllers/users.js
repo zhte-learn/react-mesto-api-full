@@ -103,7 +103,7 @@ const login = (req, res, next) => {
   User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        throw new ValidationError('Неправильные почта или пароль');
+        throw new AuthError('Неправильные почта или пароль');
       }
       return {
         user,
