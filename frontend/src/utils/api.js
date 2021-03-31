@@ -55,7 +55,6 @@ class Api {
   updateUserData(data) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
-      //method: "PUT",
       headers: {
         'Content-Type': 'application/json',
         'Authorization' : `Bearer ${localStorage.getItem('token')}`,
@@ -68,26 +67,9 @@ class Api {
     })
   }
 
-  /* updateAvatar(data) {
-    return fetch(`${this._url}/users/me/avatar`, {
-      //method: "PATCH",
-      method: "PUT",
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization' : `Bearer ${localStorage.getItem('token')}`,
-      },
-      credentials: 'include',
-      body: JSON.stringify(data),
-    })
-    .then((res) => {
-      return this._handleResult(res);
-    })
-  }
- */
   updateAvatar(data) {
     return fetch(`${this._url}/users/me/avatar`, {
       method: "PATCH",
-      //method: "PUT",
       headers: {
         'Content-Type': 'application/json',
         'Authorization' : `Bearer ${localStorage.getItem('token')}`,

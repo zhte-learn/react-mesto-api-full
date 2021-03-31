@@ -19,7 +19,6 @@ usersRouter.get('/users/:userId', celebrate({
   }).unknown(true),
 }), getUserById);
 
-//usersRouter.put('/users/me', celebrate({
 usersRouter.patch('/users/me', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30).required(),
@@ -27,7 +26,6 @@ usersRouter.patch('/users/me', celebrate({
   }),
 }), updateUserInfo);
 
-//usersRouter.put('/users/me/avatar', celebrate({
 usersRouter.patch('/users/me/avatar', celebrate({
   body: Joi.object().keys({
     avatar: Joi.string().pattern(/^(https?:\/\/)([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?#?$/).required(),
