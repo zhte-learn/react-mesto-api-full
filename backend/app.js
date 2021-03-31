@@ -15,7 +15,7 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 const corsOptions = {
- /*  origin: '*', */
+/*  origin: '*', */
   origin: [
     'https://zhte-f.nomoredomains.icu',
     'http://zhte-f.nomoredomains.icu',
